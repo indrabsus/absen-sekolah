@@ -1,6 +1,6 @@
 import { UserLogin } from "@/types/auth";
 
-export const ALLOWED_ROLES = ["manajemen"];
+export const ALLOWED_ROLES = ["manajemen", "admin"];
 
 export const getUserRole = (user: UserLogin | null) => {
   return user?.role || user?.nama_role || null;
@@ -36,3 +36,5 @@ export const isAllowedPiket = (user: UserLogin | null) => {
   const role = getUserRole(user);
   return !!role && ALLOWED_ROLES.includes(role);
 };
+
+export const isAdmin = (user: UserLogin | null) => getUserRole(user) === "admin";

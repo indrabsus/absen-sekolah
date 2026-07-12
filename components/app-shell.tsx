@@ -8,14 +8,16 @@ import { AppHeader } from "@/components/app-header";
 export function AppShell({
   title,
   children,
+  allowedRoles,
 }: {
   title: string;
   children: React.ReactNode;
+  allowedRoles?: string[];
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute allowedRoles={allowedRoles}>
       <div className="flex min-h-screen bg-slate-100 print:block print:bg-white">
         <AppSidebar mobileOpen={mobileOpen} onCloseMobile={() => setMobileOpen(false)} />
         <div className="flex min-w-0 flex-1 flex-col print:block">

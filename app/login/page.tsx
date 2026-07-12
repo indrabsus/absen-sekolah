@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ClipboardCheck, Eye, EyeOff, Loader2, LockKeyhole, User } from "lucide-react";
 import { API_URL } from "@/lib/api";
-import { saveAuth, getUser, isAllowedPiket } from "@/lib/auth";
+import { saveAuth, getUser, isAllowedPiket, ALLOWED_ROLES } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
       const user = data.data || data.user;
 
-      if (!user || user.role !== "manajemen") {
+      if (!user || !ALLOWED_ROLES.includes(user.role)) {
         setError("Akun ini tidak memiliki akses Piket/Manajemen.");
         return;
       }

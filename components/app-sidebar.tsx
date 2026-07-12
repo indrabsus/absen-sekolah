@@ -9,23 +9,29 @@ import {
   ClipboardCheck,
   ClipboardList,
   CalendarCheck,
+  UserCog,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getUser, isAdmin } from "@/lib/auth";
 
 const MENU = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/absen-guru", label: "Absen Guru", icon: UserCheck },
-  { href: "/absen-siswa", label: "Absen Siswa", icon: Users },
-  { href: "/rekap-siswa", label: "Rekap Siswa", icon: ClipboardList },
-  { href: "/rekap-guru", label: "Rekap Guru", icon: CalendarCheck },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, adminOnly: false },
+  { href: "/absen-guru", label: "Absen Guru", icon: UserCheck, adminOnly: false },
+  { href: "/absen-tendik", label: "Absen Tendik", icon: UserCog, adminOnly: false },
+  { href: "/absen-siswa", label: "Absen Siswa", icon: Users, adminOnly: false },
+  { href: "/rekap-siswa", label: "Rekap Siswa", icon: ClipboardList, adminOnly: false },
+  { href: "/rekap-guru", label: "Rekap Guru", icon: CalendarCheck, adminOnly: true },
+  { href: "/rekap-tendik", label: "Rekap Tendik", icon: CalendarCheck, adminOnly: true },
 ];
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const admin = isAdmin(getUser());
+  const menu = MENU.filter((item) => !item.adminOnly || admin);
 
   return (
     <nav className="flex flex-1 flex-col gap-1 px-3">
-      {MENU.map((item) => {
+      {menu.map((item) => {
         const active = pathname === item.href;
         const Icon = item.icon;
         return (
